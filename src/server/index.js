@@ -27,7 +27,7 @@ const main = require('./controllers/main');
 const app = express();
 
 // App Middleware
-const whitelist = ['http://localhost:3001'];
+const whitelist = ['http://localhost:3000'];
 const corsOptions = {
   origin: function(origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -45,11 +45,12 @@ app.use(morgan('combined')); // use 'tiny' or 'combined'
 // App Routes - Auth
 app.get('/', (req, res) => res.send('hello world'));
 app.get('/jira-clone', (req, res) => main.getTableData(req, res, db));
+app.get('/jira-clone/:id', (req, res) => main.getTableDataFromId(req, res, db));
 app.post('/jira-clone', (req, res) => main.postTableData(req, res, db));
 app.put('/jira-clone', (req, res) => main.putTableData(req, res, db));
 app.delete('/jira-clone', (req, res) => main.deleteTableData(req, res, db));
 
 // App Server Connection
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`app is running on port ${process.env.PORT || 3000}`);
+app.listen(process.env.PORT || 8080, () => {
+  console.log(`app is running on port ${process.env.PORT || 8080}`);
 });
